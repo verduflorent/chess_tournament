@@ -10,3 +10,11 @@ class Player:
     #__str__ permet d'afficher les données de l'objet en format string
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.national_id})"
+    
+    def to_dict(self):
+        return{
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "birth_date": self.birth_date,
+            "national_id": self.national_id
+        }
