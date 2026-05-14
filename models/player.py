@@ -11,6 +11,7 @@ class Player:
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.national_id})"
     
+    #to_dict() sert a transformer un objet en dictionnaire JSON
     def to_dict(self):
         return{
             "first_name": self.first_name,
@@ -18,3 +19,15 @@ class Player:
             "birth_date": self.birth_date,
             "national_id": self.national_id
         }
+    
+    #from_dict() recrée un objet à partir des données JSON
+    #@classmethod précise que la méthode appartient à la classe
+    # -- cela nous permet de réutiliser la même methode sur une autre classe
+    @classmethod
+    def from_dict(cls,player_data):
+        return cls(
+            player_data["first_name"],
+            player_data["last_name"],
+            player_data["birth_date"],
+            player_data["national_id"]
+        )

@@ -1,4 +1,5 @@
-
+from models.player import Player
+from models.round import Round
 
 class Tournament:
     def __init__(
@@ -45,3 +46,29 @@ class Tournament:
             "rounds": [new_round.to_dict() for new_round in self.rounds],
             "players": [player.to_dict() for player in self.players]
         }
+    
+    @classmethod
+    def from_dict(cls, tournament_data):
+        players = [
+            Player.from_dict(player_data)
+            for player_data in tournament_data["players"]
+        ]
+
+        rounds = [
+            Round.from_dict(round_data, players)
+            for round_data in tournament_data["rounds"]
+        ]
+        
+        tournament_instance = cls(tournament_data["name"],
+                                tournament_data["place"],
+                                tournament_data["description"],
+                                tournament_data["start_date"],
+                                tournament_data["end_date"],
+                                tournament_data["total_rounds"],
+                                tournament_data["actual_round"],
+                                players,
+                                rounds
+                                )
+        
+
+        return tournament_instance

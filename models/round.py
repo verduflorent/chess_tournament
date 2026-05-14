@@ -1,3 +1,4 @@
+from models.match import Match
 from datetime import datetime
 
 class Round:
@@ -35,3 +36,24 @@ class Round:
             "start_time": self.start_time.isoformat(),
             "end_time" : end_time_value
         }
+    
+    @classmethod
+    def from_dict(cls, round_data, players):
+        matches = [
+                Match.from_dict(match_data, players)
+            for match_data in round_data["matches"] 
+            ]
+        
+        # On doit recréer un round_instance pour remplacer les valeurs générés automatiquement dant notre __init__
+        round_instance = cls(round_data["name"])
+        round_instance.matches = matches
+        #avec datetime.isoformat()on reconvertit la date au format iso(JSON) en format datetime(objet)
+        round_instance.start_time = datetime.fromisoformat(round_data["start_time"])
+        
+        if round_data["end_time"]:
+            round_instance.end_time = datetime.fromisoformat(round_data["end_time"])
+        
+        else:
+            round_instance.end_time = None
+
+        return round_instance
