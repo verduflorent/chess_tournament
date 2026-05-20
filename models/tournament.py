@@ -23,6 +23,9 @@ class Tournament:
         self.actual_round = actual_round
         self.rounds = rounds or []
         self.players = players or []
+    
+    def __str__(self):
+        return f"{self.name} ({self.start_date})"
 
     def add_player(self,player):
         if player not in self.players:
@@ -66,8 +69,8 @@ class Tournament:
                                 tournament_data["end_date"],
                                 tournament_data["total_rounds"],
                                 tournament_data["actual_round"],
-                                players,
-                                rounds
+                                rounds,
+                                players
                                 )
         
 

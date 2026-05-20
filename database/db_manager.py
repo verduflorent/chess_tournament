@@ -31,7 +31,7 @@ class DatabaseManager:
     def save_tournament(self, tournament):
         self.tournaments_table.insert(tournament.to_dict())
 
-    def get_tournament(self):
+    def get_tournaments(self):
         tournaments_data = self.tournaments_table.all()
 
         tournaments = [

@@ -1,18 +1,43 @@
-from models.player import Player
-from models.match import Match
-from models.round import Round
+from database.db_manager import DatabaseManager
 
-player1 = Player("Jean","Duzboub","06/07/1992","A111")
-player2 = Player("Alice","Lachoin","24/12/1987","A112")
+from controllers.player_controller import PlayerController
+from controllers.tournament_controller import TournamentController
 
-match1 = Match(player1, player2)
+from views.player_view import PlayerView
+from views.tournament_view import TournamentView
 
-round1 = Round("Test")
+db_manager = DatabaseManager()
+player_controller = PlayerController(db_manager)
+tournament_controller = TournamentController(db_manager)
+player_view = PlayerView(player_controller)
+tournament_view = TournamentView(tournament_controller)
 
-round1.add_match(match1)
+#Le while True signifie que tant que l'utilisateur ne quitte pas en chosissant le break, le menu s'affiche
+while True:
+    print("\n=== MENU PRINCIPAL ===")
+    print("1. Créer un joueur")
+    print("2. Afficher les joueurs")
+    print("3. Créer un tournoi")
+    print("4. Afficher les tournois")
+    print("0. Quitter")
 
-print(round1)
+    choice = input("Votre choix : ")
 
-round1.end_round()
+    if choice == "1":
+        player_view.create_player_view()
 
-print(round1)
+    elif choice == "2":
+        player_view.display_players_view()
+
+    elif choice == "3":
+        tournament_view.create_tournament_view()
+
+    elif choice == "4":
+        tournament_view.display_tournaments_view()
+
+    elif choice == "0":
+        print("Au revoir !")
+        break
+
+    else:
+        print("Choix invalide.")
