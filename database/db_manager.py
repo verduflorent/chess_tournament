@@ -31,6 +31,13 @@ class DatabaseManager:
     def save_tournament(self, tournament):
         self.tournaments_table.insert(tournament.to_dict())
 
+    def save_tournaments(self, tournaments):
+        #La méthode trunkate vide la table tournaments 
+        self.tournaments_table.truncate()
+        #On réecris ensuite la table pour éviter les doublons
+        for tournament in tournaments:
+            self.tournaments_table.insert(tournament.to_dict())
+
     def get_tournaments(self):
         tournaments_data = self.tournaments_table.all()
 

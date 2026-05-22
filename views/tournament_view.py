@@ -1,6 +1,7 @@
 class TournamentView:
-    def __init__(self, tournament_controller):
+    def __init__(self, tournament_controller, player_controller):
         self.tournament_controller = tournament_controller
+        self.player_controller = player_controller
     
     def create_tournament_view(self):
         name = input("Nom : ")
@@ -26,3 +27,26 @@ class TournamentView:
 
         for tournament in tournaments:
             print(tournament)
+    
+    def add_player_to_tournament_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        #Enumerate() sert à parcourir une liste en récuperant automatiquement un numéro(index)
+        for index, tournament in enumerate(tournaments):
+            print(index, tournament)
+
+        players = self.player_controller.get_players()
+
+        for index, player in enumerate(players):
+            print(index, player)
+        
+        #On passe le format en int afin de garder l'index en entier exploitable
+        tournament_index = int(input("Numéro du tournoi : "))
+        player_index = int(input("Numéro du joueur : "))
+
+        tournament = self.tournament_controller.add_player_to_tournament(
+            tournament_index,
+            player_index
+        )
+
+        print(f"Joueur ajouté au tournoi : {tournament}")
