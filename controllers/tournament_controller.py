@@ -84,3 +84,22 @@ class TournamentController:
         self.db_manager.save_tournaments(tournaments)
 
         return new_round
+    
+    def enter_round_results(self, tournament_index, round_index):
+        tournaments = self.db_manager.get_tournaments()
+        tournament = tournaments[tournament_index]
+        selected_round = tournament.rounds[round_index]
+
+        for match in selected_round.matches:
+            print(match)
+            score1 = float(input(f"Score de {match.player1} : "))
+            score2 = float(input(f"Score de {match.player2} : "))
+
+            match.score1 = score1
+            match.score2 = score2
+        
+        selected_round.end_round()
+
+        self.db_manager.save_tournaments(tournaments)
+
+        return selected_round

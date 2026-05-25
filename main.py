@@ -25,6 +25,7 @@ while True:
     print("4. Afficher les tournois")
     print("5. Ajouter un joueur a un tournoi")
     print("6. Générer un round")
+    print("7. Saisir les résultats d'un round")
     print("0. Quitter")
 
     choice = input("Votre choix : ")
@@ -46,6 +47,9 @@ while True:
 
     elif choice == "6":
         tournament_view.generate_round_view()
+    
+    elif choice == "7":
+        tournament_view.enter_round_results_view()
 
     elif choice == "0":
         print("Au revoir !")

@@ -62,3 +62,25 @@ class TournamentView:
         new_round = self.tournament_controller.generate_round(tournament_index)
 
         print(f"{new_round.name} génené avec succès.")
+    
+    def enter_round_results_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments):
+            print(index, tournament)
+        
+        tournament_index = int(input("Numéro du tournoi : "))
+
+        tournament = tournaments[tournament_index]
+
+        for index, tournament_round in enumerate(tournament.rounds, start=1):
+            print(index, tournament_round)
+        
+        round_index = int(input("Numéro du round : ")) - 1
+
+        selected_round = self.tournament_controller.enter_round_results(
+            tournament_index,
+            round_index
+        )
+
+        print(f"Résultats enregistrés pour {selected_round.name}")

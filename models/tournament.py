@@ -28,8 +28,11 @@ class Tournament:
         return f"{self.name} ({self.start_date})"
 
     def add_player(self,player):
-        if player not in self.players:
-            self.players.append(player)
+        for existing_player in self.players:
+            if existing_player.national.id == player.national_id:
+                return
+                
+        self.players.append(player)
     
     def add_round(self,new_round):
         if new_round not in self.rounds:
