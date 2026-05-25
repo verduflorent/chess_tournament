@@ -17,12 +17,14 @@ tournament_view = TournamentView(
 
 #Le while True signifie que tant que l'utilisateur ne quitte pas en chosissant le break, le menu s'affiche
 while True:
+    #\n est un caractere spécial "retour a la ligne"
     print("\n=== MENU PRINCIPAL ===")
     print("1. Créer un joueur")
     print("2. Afficher les joueurs")
     print("3. Créer un tournoi")
     print("4. Afficher les tournois")
     print("5. Ajouter un joueur a un tournoi")
+    print("6. Générer un round")
     print("0. Quitter")
 
     choice = input("Votre choix : ")
@@ -41,6 +43,9 @@ while True:
     
     elif choice == "5":
         tournament_view.add_player_to_tournament_view()
+
+    elif choice == "6":
+        tournament_view.generate_round_view()
 
     elif choice == "0":
         print("Au revoir !")

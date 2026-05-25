@@ -1,4 +1,6 @@
 from models.tournament import Tournament
+from models.match import Match
+from models.round import Round
 
 class TournamentController:
 
@@ -49,4 +51,36 @@ class TournamentController:
 
         #On retourne le tournoi en fonction de son index
         return tournament
+    
+    def generate_round(self, tournament_index):
+        tournaments = self.db_manager.get_tournaments()
+        tournament = tournaments[tournament_index]
 
+        players = tournament.players
+
+        matches = []
+
+        if len(players) % 2 != 0:
+            raise ValueError("Le nombre de joueurs doit être pair pour generer un round")
+        # On parcours l'index avec la méthode range() qui sert a définir la portée de notre recherche
+        # len(players) signifie qu'on parcours toute la liste players et le 2 signifie qu'on veut les recuperer par 2
+        for index in range(0, len(players), 2) :
+
+            player1 = players[index]
+            player2 = players[index + 1]
+
+            match = Match(player1, player2)
+            matches.append(match)
+
+        new_round = Round(f"Round {tournament.actual_round + 1}")
+
+        for match in matches:
+            new_round.add_match(match)
+        
+        tournament.add_round(new_round)
+
+        tournament.actual_round += 1
+
+        self.db_manager.save_tournaments(tournaments)
+
+        return new_round
