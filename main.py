@@ -69,7 +69,7 @@ def tournament_menu():
         print("4. Ajouter un joueur à un tournoi")
         print("5. Retirer un joueur d'un tournoi")
         print("6. Générer un round")
-        print("7. Saisir les résultats d'un round")
+        print("7. Saisir / Modifier les résultats d'un round")
         print("0. Retour")
 
         choice = input("Votre choix : ")

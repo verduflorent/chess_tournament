@@ -151,11 +151,6 @@ class TournamentController:
         tournament = tournaments[tournament_index]
         selected_round = tournament.rounds[round_index]
 
-        # Si le round possède deja un end_time cela signifie qu'il est terminé
-        # On evite donc de modifier les scores plusieurs fois
-        if selected_round.end_time is not None:
-            raise ValueError("Les résultats de ce round ont déjà été saisis.")
-
         for match in selected_round.matches:
             print(match)
             score1 = float(input(f"Score de {match.player1} : "))
