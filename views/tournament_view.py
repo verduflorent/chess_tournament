@@ -33,6 +33,26 @@ class TournamentView:
         )
 
         print(f"Tournoi crée : {tournament.name}")
+
+    #Affichage de la vue de suppression des tournois
+    def delete_tournament_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments, start=1):
+            print(index, tournament)
+
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi à supprimer : "
+        ) - 1
+
+        try:
+            deleted_tournament = self.tournament_controller.delete_tournament(
+                tournament_index
+            )
+            print(f"Tournoi supprimé : {deleted_tournament}")
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
     
     # Affichage de la vue tournoi
     def display_tournaments_view(self):
@@ -74,7 +94,45 @@ class TournamentView:
 
         except ValueError as error:
             print(f"Erreur : {error}")
-        
+
+    #Affichage la vue de suppression d'un joueur du tournoi
+    def remove_player_from_tournament_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments, start=1):
+            print(index, tournament)
+
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        ) - 1
+
+        try:
+            tournament = tournaments[tournament_index]
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
+            return
+
+        if not tournament.players:
+            print("Ce tournoi ne contient aucun joueur.")
+            return
+
+        for index, player in enumerate(tournament.players, start=1):
+            print(index, player)
+
+        player_index = self.get_valid_integer_input(
+            "Numéro du joueur à retirer : "
+        ) - 1
+
+        try:
+            player = self.tournament_controller.remove_player_from_tournament(
+                tournament_index,
+                player_index
+            )
+            print(f"Joueur retiré du tournoi : {player}")
+
+        except IndexError:
+            print("Erreur : numéro de joueur invalide.")    
 
     # Affichage de la vue de generation de round
     def generate_round_view(self):

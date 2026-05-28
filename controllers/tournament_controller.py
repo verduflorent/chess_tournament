@@ -37,6 +37,16 @@ class TournamentController:
 
         return self.db_manager.get_tournaments()
     
+    #Suppression d'un tournoi
+    def delete_tournament(self, tournament_index):
+        tournaments = self.db_manager.get_tournaments()
+
+        deleted_tournament = tournaments.pop(tournament_index)
+
+        self.db_manager.save_tournaments(tournaments)
+
+        return deleted_tournament
+    
     # Ajout des joueurs à un tournoi
     def add_player_to_tournament(self, tournament_index, player_index):
         # On récuperes les données des tournois et des joueurs
@@ -60,6 +70,18 @@ class TournamentController:
 
         #On retourne le tournoi en fonction de son index
         return tournament
+    
+    #Suppression d'un joueur du tournoi
+    def remove_player_from_tournament(self, tournament_index, player_index):
+        tournaments = self.db_manager.get_tournaments()
+        tournament = tournaments[tournament_index]
+
+        player = tournament.players[player_index]
+        tournament.players.remove(player)
+
+        self.db_manager.save_tournaments(tournaments)
+
+        return player
     
     # Generation des rounds
     def generate_round(self, tournament_index):

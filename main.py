@@ -34,7 +34,8 @@ def player_menu():
 
         print("\n=== GESTION JOUEURS ===")
         print("1. Créer un joueur")
-        print("2. Afficher les joueurs")
+        print("2. Supprimer un joueur")
+        print("3. Afficher les joueurs")
         print("0. Retour")
 
         choice = input("Votre choix : ")
@@ -45,6 +46,9 @@ def player_menu():
                 player_view.create_player_view()
 
             case "2":
+                player_view.delete_player_view()
+
+            case "3":
                 player_view.display_players_view()
 
             case "0":
@@ -60,10 +64,12 @@ def tournament_menu():
 
         print("\n=== GESTION TOURNOIS ===")
         print("1. Créer un tournoi")
-        print("2. Afficher les tournois")
-        print("3. Ajouter un joueur à un tournoi")
-        print("4. Générer un round")
-        print("5. Saisir les résultats d'un round")
+        print("2. Supprimer un tournoi")
+        print("3. Afficher les tournois")
+        print("4. Ajouter un joueur à un tournoi")
+        print("5. Retirer un joueur d'un tournoi")
+        print("6. Générer un round")
+        print("7. Saisir les résultats d'un round")
         print("0. Retour")
 
         choice = input("Votre choix : ")
@@ -74,15 +80,21 @@ def tournament_menu():
                 tournament_view.create_tournament_view()
 
             case "2":
-                tournament_view.display_tournaments_view()
+                tournament_view.delete_tournament_view()
 
             case "3":
-                tournament_view.add_player_to_tournament_view()
+                tournament_view.display_tournaments_view()
 
             case "4":
-                tournament_view.generate_round_view()
+                tournament_view.add_player_to_tournament_view()
 
             case "5":
+                tournament_view.remove_player_from_tournament_view()
+
+            case "6":
+                tournament_view.generate_round_view()
+
+            case "7":
                 tournament_view.enter_round_results_view()
 
             case "0":

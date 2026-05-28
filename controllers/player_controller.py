@@ -32,4 +32,17 @@ class PlayerController:
 
         return self.db_manager.get_players()
 
+    #Suppression d'un joueur
+    def delete_player(self, player_index):
+        players = self.db_manager.get_players()
+
+        deleted_player = players.pop(player_index)
+
+        #truncate() vide totalement la table players afin de la réecrire
+        self.db_manager.players_table.truncate()
+
+        for player in players:
+            self.db_manager.save_player(player)
+
+        return deleted_player
    

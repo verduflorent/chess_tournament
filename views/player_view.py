@@ -26,3 +26,19 @@ class PlayerView:
 
         for player in players:
             print(player)
+
+    # Affichage de la vue de suppression de joueur
+    def delete_player_view(self):
+        players = self.player_controller.get_players()
+
+        for index, player in enumerate(players, start=1):
+            print(index, player)
+
+        player_index = int(input("Numéro du joueur à supprimer : ")) - 1
+
+        try:
+            deleted_player = self.player_controller.delete_player(player_index)
+            print(f"Joueur supprimé : {deleted_player}")
+
+        except IndexError:
+            print("Erreur : numéro de joueur invalide.")
