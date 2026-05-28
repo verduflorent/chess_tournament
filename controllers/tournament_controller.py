@@ -47,6 +47,11 @@ class TournamentController:
         tournament = tournaments[tournament_index]
         player = players[player_index]
 
+        # On check si le joueur existe déja
+        for existing_player in tournament.players:
+            if existing_player.national_id == player.national_id:
+                raise ValueError("Ce joueur est déjà inscrit dans le tournoi.")
+
         # On ajoute un joueur en fonction de son index 
         tournament.add_player(player)
 

@@ -5,6 +5,15 @@ class TournamentView:
         self.tournament_controller = tournament_controller
         self.player_controller = player_controller
     
+    # Securisation des inputs
+    def get_valid_integer_input(self, message):
+        while True:
+            try:
+                return int(input(message))
+
+            except ValueError:
+                print("Erreur : veuillez entrer un nombre valide.")
+    
     # Creation de la vue tournoi
     def create_tournament_view(self):
         name = input("Nom : ")
@@ -46,8 +55,12 @@ class TournamentView:
             print(index, player)
         
         #On passe le format en int afin de garder l'index en entier exploitable
-        tournament_index = int(input("Numéro du tournoi : "))
-        player_index = int(input("Numéro du joueur : "))
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        )
+        player_index = self.get_valid_integer_input(
+            "Numéro du joueur : "
+        )
 
         try:
             tournament = self.tournament_controller.add_player_to_tournament(
@@ -69,7 +82,9 @@ class TournamentView:
         for index, tournament in enumerate(tournaments):
             print(index, tournament)
         
-        tournament_index = int(input("Numéro du tournoi : "))
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        )
 
         try:
             new_round = self.tournament_controller.generate_round(tournament_index)
@@ -88,7 +103,9 @@ class TournamentView:
         for index, tournament in enumerate(tournaments):
             print(index, tournament)
         
-        tournament_index = int(input("Numéro du tournoi : "))
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        )
 
         try:
             tournament = tournaments[tournament_index]
@@ -100,7 +117,9 @@ class TournamentView:
         for index, tournament_round in enumerate(tournament.rounds, start=1):
             print(index, tournament_round)
         
-        round_index = int(input("Numéro du round : ")) - 1
+        round_index = self.get_valid_integer_input(
+            "Numéro du round : "
+        ) - 1
 
         try:
             selected_round = self.tournament_controller.enter_round_results(
@@ -122,7 +141,9 @@ class TournamentView:
         for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
-        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        ) - 1
 
         try:
             tournament = tournaments[tournament_index]
@@ -145,7 +166,9 @@ class TournamentView:
         for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
-        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        ) - 1
 
         try:
             tournament = tournaments[tournament_index]
@@ -168,7 +191,9 @@ class TournamentView:
         for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
-        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        ) - 1
 
         try:
             tournament = tournaments[tournament_index]
@@ -194,7 +219,9 @@ class TournamentView:
         for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
-        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament_index = self.get_valid_integer_input(
+            "Numéro du tournoi : "
+        ) - 1
 
         try:
             tournament = tournaments[tournament_index]
