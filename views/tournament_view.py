@@ -84,3 +84,92 @@ class TournamentView:
         )
 
         print(f"Résultats enregistrés pour {selected_round.name}")
+    
+    def display_tournament_details_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments, start=1):
+            print(index, tournament)
+
+        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament = tournaments[tournament_index]
+
+        print(f"\nTournoi : {tournament.name}")
+        print(f"Lieu : {tournament.place}")
+        print(f"Dates : {tournament.start_date} → {tournament.end_date}")
+        print(f"Description : {tournament.description}")
+        print(f"Nombre de joueurs : {len(tournament.players)}")
+        print(f"Nombre de rounds : {len(tournament.rounds)}")
+
+    def display_tournament_players_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments, start=1):
+            print(index, tournament)
+
+        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament = tournaments[tournament_index]
+
+        print(f"\nJoueurs du tournoi : {tournament.name}")
+
+        # sorted() est une méthode qui trie les élements d'une liste
+        # key=lambda signifie que l'on trie les joueurs par l'att last_name 
+        for player in sorted(tournament.players, key=lambda player: player.last_name):
+            print(player)
+    
+    def display_tournament_rounds_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments, start=1):
+            print(index, tournament)
+
+        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament = tournaments[tournament_index]
+
+        print(f"\nRounds du tournoi : {tournament.name}")
+
+        for tournament_round in tournament.rounds:
+            print(f"\n{tournament_round.name}")
+            print(f"Début : {tournament_round.start_time}")
+            print(f"Fin : {tournament_round.end_time}")
+
+            for match in tournament_round.matches:
+                print(f"  - {match}")
+    
+    def display_tournament_ranking_view(self):
+        tournaments = self.tournament_controller.get_tournaments()
+
+        for index, tournament in enumerate(tournaments, start=1):
+            print(index, tournament)
+
+        tournament_index = int(input("Numéro du tournoi : ")) - 1
+        tournament = tournaments[tournament_index]
+
+        # On définis un objet score vide
+        scores = {}
+
+        # Pour chaque joueur on crée un attribut score via son ID
+        for player in tournament.players:
+            scores[player.national_id] = {
+                "player": player,
+                "score": 0
+            }
+
+        # Pour chaque match de chaque round on récupère le score et on l'implemente 
+        for tournament_round in tournament.rounds:
+            for match in tournament_round.matches:
+                scores[match.player1.national_id]["score"] += match.score1
+                scores[match.player2.national_id]["score"] += match.score2
+
+        # On crée une variable ranking dans laquelle on trie les scores par leur valeur
+        # reverse = True inverse l'ordre du tri qui est croissant par défault
+        ranking = sorted(
+            scores.values(),
+            key=lambda item: item["score"],
+            reverse=True
+        )
+
+        print(f"\nClassement du tournoi : {tournament.name}")
+
+        for index, item in enumerate(ranking, start=1):
+            print(f"{index}. {item['player']} - {item['score']} pts")

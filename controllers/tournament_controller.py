@@ -103,3 +103,25 @@ class TournamentController:
         self.db_manager.save_tournaments(tournaments)
 
         return selected_round
+    
+    def get_tournament_ranking(self, tournament):
+        scores = {}
+
+        for player in tournament.players:
+            scores[player.national_id] = {
+                "player": player,
+                "score": 0
+            }
+
+        for tournament_round in tournament.rounds:
+            for match in tournament_round.matches:
+                scores[match.player1.national_id]["score"] += match.score1
+                scores[match.player2.national_id]["score"] += match.score2
+
+        ranking = sorted(
+            scores.values(),
+            key=lambda item: item["score"],
+            reverse=True
+        )
+
+        return [item["player"] for item in ranking]
