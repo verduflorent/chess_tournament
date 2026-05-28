@@ -49,12 +49,18 @@ class TournamentView:
         tournament_index = int(input("Numéro du tournoi : "))
         player_index = int(input("Numéro du joueur : "))
 
-        tournament = self.tournament_controller.add_player_to_tournament(
-            tournament_index,
-            player_index
-        )
+        try:
+            tournament = self.tournament_controller.add_player_to_tournament(
+                tournament_index,
+                player_index
+            )
+            print(f"Joueur ajouté au tournoi : {tournament}")
 
-        print(f"Joueur ajouté au tournoi : {tournament}")
+        except IndexError:
+            print("Erreur : numéro de tournoi ou de joueur invalide.")
+
+        except ValueError as error:
+            print(f"Erreur : {error}")
 
     # Affichage de la vue de generation de round
     def generate_round_view(self):
@@ -65,9 +71,15 @@ class TournamentView:
         
         tournament_index = int(input("Numéro du tournoi : "))
 
-        new_round = self.tournament_controller.generate_round(tournament_index)
+        try:
+            new_round = self.tournament_controller.generate_round(tournament_index)
+            print(f"{new_round.name} généré avec succès.")
 
-        print(f"{new_round.name} génené avec succès.")
+        except ValueError as error:
+            print(f"Erreur : {error}")
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
     
     # Création et affichage de la vue de saisie de score de rounds
     def enter_round_results_view(self):
@@ -78,19 +90,30 @@ class TournamentView:
         
         tournament_index = int(input("Numéro du tournoi : "))
 
-        tournament = tournaments[tournament_index]
+        try:
+            tournament = tournaments[tournament_index]
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
+            return
 
         for index, tournament_round in enumerate(tournament.rounds, start=1):
             print(index, tournament_round)
         
         round_index = int(input("Numéro du round : ")) - 1
 
-        selected_round = self.tournament_controller.enter_round_results(
-            tournament_index,
-            round_index
-        )
+        try:
+            selected_round = self.tournament_controller.enter_round_results(
+                tournament_index,
+                round_index
+            )
+            print(f"Résultats enregistrés pour {selected_round.name}.")
 
-        print(f"Résultats enregistrés pour {selected_round.name}")
+        except IndexError:
+            print("Erreur : numéro de tournoi ou de round invalide.")
+
+        except ValueError as error:
+            print(f"Erreur : {error}")
     
     # Affichage de la vue des détails des tournois
     def display_tournament_details_view(self):
@@ -100,7 +123,13 @@ class TournamentView:
             print(index, tournament)
 
         tournament_index = int(input("Numéro du tournoi : ")) - 1
-        tournament = tournaments[tournament_index]
+
+        try:
+            tournament = tournaments[tournament_index]
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
+            return
 
         print(f"\nTournoi : {tournament.name}")
         print(f"Lieu : {tournament.place}")
@@ -117,7 +146,13 @@ class TournamentView:
             print(index, tournament)
 
         tournament_index = int(input("Numéro du tournoi : ")) - 1
-        tournament = tournaments[tournament_index]
+
+        try:
+            tournament = tournaments[tournament_index]
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
+            return
 
         print(f"\nJoueurs du tournoi : {tournament.name}")
 
@@ -134,7 +169,13 @@ class TournamentView:
             print(index, tournament)
 
         tournament_index = int(input("Numéro du tournoi : ")) - 1
-        tournament = tournaments[tournament_index]
+
+        try:
+            tournament = tournaments[tournament_index]
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
+            return
 
         print(f"\nRounds du tournoi : {tournament.name}")
 
@@ -154,7 +195,13 @@ class TournamentView:
             print(index, tournament)
 
         tournament_index = int(input("Numéro du tournoi : ")) - 1
-        tournament = tournaments[tournament_index]
+
+        try:
+            tournament = tournaments[tournament_index]
+
+        except IndexError:
+            print("Erreur : numéro de tournoi invalide.")
+            return
 
         # On définis un objet score vide
         scores = {}

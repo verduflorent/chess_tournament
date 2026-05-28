@@ -60,9 +60,18 @@ class TournamentController:
     def generate_round(self, tournament_index):
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
+
+        if tournament.actual_round >= int(tournament.total_rounds):
+            raise ValueError("Le tournoi a déjà atteint son nombre maximum de rounds.")
         
         # L'appel de get_tournament_ranking() retourne les joueurs triés par le classement
         players = self.get_tournament_ranking(tournament)
+
+        if len(players) < 2:
+            raise ValueError("Il faut au moins 2 joueurs pour générer un round.")
+
+        if len(players) % 2 != 0:
+            raise ValueError("Le nombre de joueurs doit être pair pour générer un round.") 
 
         matches = []
         # copy() crée une copie de la liste originale afin de retirer des joueurs sans modifier la liste originale
@@ -111,6 +120,11 @@ class TournamentController:
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
         selected_round = tournament.rounds[round_index]
+
+        # Si le round possède deja un end_time cela signifie qu'il est terminé
+        # On evite donc de modifier les scores plusieurs fois
+        if selected_round.end_time is not None:
+            raise ValueError("Les résultats de ce round ont déjà été saisis.")
 
         for match in selected_round.matches:
             print(match)
