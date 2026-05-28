@@ -66,6 +66,9 @@ class TournamentController:
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
 
+        if tournament.rounds and tournament.rounds[-1].end_time is None:
+            raise ValueError("Le round précédent doit être terminé avant d'en générer un nouveau.")
+        
         if tournament.actual_round >= int(tournament.total_rounds):
             raise ValueError("Le tournoi a déjà atteint son nombre maximum de rounds.")
         

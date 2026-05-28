@@ -74,6 +74,7 @@ class TournamentView:
 
         except ValueError as error:
             print(f"Erreur : {error}")
+        
 
     # Affichage de la vue de generation de round
     def generate_round_view(self):
@@ -176,6 +177,10 @@ class TournamentView:
         except IndexError:
             print("Erreur : numéro de tournoi invalide.")
             return
+        
+        if not tournament.players:
+            print("Ce tournoi ne contient aucun joueur")
+            return
 
         print(f"\nJoueurs du tournoi : {tournament.name}")
 
@@ -200,6 +205,10 @@ class TournamentView:
 
         except IndexError:
             print("Erreur : numéro de tournoi invalide.")
+            return
+        
+        if not tournament.rounds:
+            print("Ce tournoi ne contient aucun round")
             return
 
         print(f"\nRounds du tournoi : {tournament.name}")
@@ -228,6 +237,10 @@ class TournamentView:
 
         except IndexError:
             print("Erreur : numéro de tournoi invalide.")
+            return
+        
+        if not tournament.players:
+            print("Ce tournoi ne contient aucun joueur")
             return
 
         # On définis un objet score vide
