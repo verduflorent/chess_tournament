@@ -12,10 +12,7 @@ class PlayerView:
         national_id = input("Identifiant National : ")
 
         player = self.player_controller.create_player(
-            first_name,
-            last_name,
-            birth_date,
-            national_id
+            first_name, last_name, birth_date, national_id
         )
 
         print(f"Joueur crée : {player}")

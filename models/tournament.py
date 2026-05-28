@@ -1,20 +1,21 @@
 from models.player import Player
 from models.round import Round
 
+
 class Tournament:
     # Initialisation de Tournament
     def __init__(
-            self,
-            name, 
-            place,
-            description, 
-            start_date, 
-            end_date, 
-            total_rounds, 
-            actual_round = 0, 
-            rounds = None, 
-            players = None 
-            ):
+        self,
+        name,
+        place,
+        description,
+        start_date,
+        end_date,
+        total_rounds,
+        actual_round=0,
+        rounds=None,
+        players=None,
+    ):
         self.name = name
         self.place = place
         self.description = description
@@ -24,28 +25,28 @@ class Tournament:
         self.actual_round = actual_round
         self.rounds = rounds or []
         self.players = players or []
-    
+
     # Configuration de l'affichage de Tournament
     def __str__(self):
         return f"{self.name} ({self.start_date})"
 
     # Ajout d'un joueur au tournoi
-    def add_player(self,player):
+    def add_player(self, player):
         for existing_player in self.players:
             if existing_player.national.id == player.national_id:
                 return
-                
+
         self.players.append(player)
-    
+
     # Ajout d'un round au tournoi
-    def add_round(self,new_round):
+    def add_round(self, new_round):
         if new_round not in self.rounds:
             self.rounds.append(new_round)
 
-# Cette méthode sert a transformer un objet python en dictionnaire simple et compréhensible par JSON
+    # Cette méthode sert a transformer un objet python en dictionnaire simple et compréhensible par JSON
     # Serialization JSON
     def to_dict(self):
-        return{
+        return {
             "name": self.name,
             "place": self.place,
             "description": self.description,
@@ -53,35 +54,34 @@ class Tournament:
             "end_date": self.end_date,
             "total_rounds": self.total_rounds,
             "actual_round": self.actual_round,
-            #Pour chaque objet dans la liste d'objet on appelle la méthode to_dict() pour mettre le résultat dans une nouvelle liste
+            # Pour chaque objet dans la liste d'objet on appelle la méthode to_dict()
+            # pour mettre le résultat dans une nouvelle liste
             "rounds": [new_round.to_dict() for new_round in self.rounds],
-            "players": [player.to_dict() for player in self.players]
+            "players": [player.to_dict() for player in self.players],
         }
-    
-    @classmethod
 
     # Deserialization JSON
+    @classmethod
     def from_dict(cls, tournament_data):
         players = [
-            Player.from_dict(player_data)
-            for player_data in tournament_data["players"]
+            Player.from_dict(player_data) for player_data in tournament_data["players"]
         ]
 
         rounds = [
             Round.from_dict(round_data, players)
             for round_data in tournament_data["rounds"]
         ]
-        
-        tournament_instance = cls(tournament_data["name"],
-                                tournament_data["place"],
-                                tournament_data["description"],
-                                tournament_data["start_date"],
-                                tournament_data["end_date"],
-                                tournament_data["total_rounds"],
-                                tournament_data["actual_round"],
-                                rounds,
-                                players
-                                )
-        
+
+        tournament_instance = cls(
+            tournament_data["name"],
+            tournament_data["place"],
+            tournament_data["description"],
+            tournament_data["start_date"],
+            tournament_data["end_date"],
+            tournament_data["total_rounds"],
+            tournament_data["actual_round"],
+            rounds,
+            players,
+        )
 
         return tournament_instance

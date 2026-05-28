@@ -2,6 +2,7 @@ from models.tournament import Tournament
 from models.match import Match
 from models.round import Round
 
+
 class TournamentController:
 
     # Initialisation DB
@@ -10,22 +11,11 @@ class TournamentController:
 
     # Création d'un tournoi
     def create_tournament(
-            self,
-            name,
-            place,
-            description,
-            start_date,
-            end_date,
-            total_rounds
-        ):
+        self, name, place, description, start_date, end_date, total_rounds
+    ):
 
         tournament = Tournament(
-            name,
-            place,
-            description,
-            start_date,
-            end_date,
-            total_rounds
+            name, place, description, start_date, end_date, total_rounds
         )
 
         self.db_manager.save_tournament(tournament)
@@ -36,8 +26,8 @@ class TournamentController:
     def get_tournaments(self):
 
         return self.db_manager.get_tournaments()
-    
-    #Suppression d'un tournoi
+
+    # Suppression d'un tournoi
     def delete_tournament(self, tournament_index):
         tournaments = self.db_manager.get_tournaments()
 
@@ -46,7 +36,7 @@ class TournamentController:
         self.db_manager.save_tournaments(tournaments)
 
         return deleted_tournament
-    
+
     # Ajout des joueurs à un tournoi
     def add_player_to_tournament(self, tournament_index, player_index):
         # On récuperes les données des tournois et des joueurs
@@ -62,16 +52,16 @@ class TournamentController:
             if existing_player.national_id == player.national_id:
                 raise ValueError("Ce joueur est déjà inscrit dans le tournoi.")
 
-        # On ajoute un joueur en fonction de son index 
+        # On ajoute un joueur en fonction de son index
         tournament.add_player(player)
 
-        #On sauvegarde les données des tournois dans la BD
+        # On sauvegarde les données des tournois dans la BD
         self.db_manager.save_tournaments(tournaments)
 
-        #On retourne le tournoi en fonction de son index
+        # On retourne le tournoi en fonction de son index
         return tournament
-    
-    #Suppression d'un joueur du tournoi
+
+    # Suppression d'un joueur du tournoi
     def remove_player_from_tournament(self, tournament_index, player_index):
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
@@ -82,18 +72,20 @@ class TournamentController:
         self.db_manager.save_tournaments(tournaments)
 
         return player
-    
+
     # Generation des rounds
     def generate_round(self, tournament_index):
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
 
         if tournament.rounds and tournament.rounds[-1].end_time is None:
-            raise ValueError("Le round précédent doit être terminé avant d'en générer un nouveau.")
-        
+            raise ValueError(
+                "Le round précédent doit être terminé avant d'en générer un nouveau."
+            )
+
         if tournament.actual_round >= int(tournament.total_rounds):
             raise ValueError("Le tournoi a déjà atteint son nombre maximum de rounds.")
-        
+
         # L'appel de get_tournament_ranking() retourne les joueurs triés par le classement
         players = self.get_tournament_ranking(tournament)
 
@@ -101,7 +93,9 @@ class TournamentController:
             raise ValueError("Il faut au moins 2 joueurs pour générer un round.")
 
         if len(players) % 2 != 0:
-            raise ValueError("Le nombre de joueurs doit être pair pour générer un round.") 
+            raise ValueError(
+                "Le nombre de joueurs doit être pair pour générer un round."
+            )
 
         matches = []
         # copy() crée une copie de la liste originale afin de retirer des joueurs sans modifier la liste originale
@@ -120,7 +114,7 @@ class TournamentController:
                     # Si les critères sont remplis alors player2 devient la variable que l'on a stocké au préalable
                     opponent = player2
                     break
-            
+
             # Si aucun adversaire répondant a notre critère n'as été trouvé
             if opponent is None:
                 # On prend le premier joueur de la liste pour éviter de bloquer le processus de création de round
@@ -136,7 +130,7 @@ class TournamentController:
 
         for match in matches:
             new_round.add_match(match)
-        
+
         tournament.add_round(new_round)
 
         tournament.actual_round += 1
@@ -144,7 +138,7 @@ class TournamentController:
         self.db_manager.save_tournaments(tournaments)
 
         return new_round
-    
+
     # Saisie manuelle des résultats du round
     def enter_round_results(self, tournament_index, round_index):
         tournaments = self.db_manager.get_tournaments()
@@ -158,38 +152,31 @@ class TournamentController:
 
             match.score1 = score1
             match.score2 = score2
-        
+
         selected_round.end_round()
 
         self.db_manager.save_tournaments(tournaments)
 
         return selected_round
-    
+
     # Récupération du classement du tournoi
     def get_tournament_ranking(self, tournament):
         scores = {}
 
         for player in tournament.players:
-            scores[player.national_id] = {
-                "player": player,
-                "score": 0
-            }
+            scores[player.national_id] = {"player": player, "score": 0}
 
         for tournament_round in tournament.rounds:
             for match in tournament_round.matches:
                 scores[match.player1.national_id]["score"] += match.score1
                 scores[match.player2.national_id]["score"] += match.score2
 
-        ranking = sorted(
-            scores.values(),
-            key=lambda item: item["score"],
-            reverse=True
-        )
+        ranking = sorted(scores.values(), key=lambda item: item["score"], reverse=True)
 
         return [item["player"] for item in ranking]
-    
+
     # Gestion des rematchs
-    # La méthode vérifie si 2 joueurs se sont déja affrontés 
+    # La méthode vérifie si 2 joueurs se sont déja affrontés
     # On l'appelles dans generate_round() afin d'éviter les rematchs
     def have_played_together(self, tournament, player1, player2):
         for tournament_round in tournament.rounds:
@@ -200,7 +187,7 @@ class TournamentController:
                     and match.player2.national_id == player2.national_id
                 )
 
-                # Puis on vérifie dans l'ordre inverse des paramètres 
+                # Puis on vérifie dans l'ordre inverse des paramètres
                 reverse_order = (
                     match.player1.national_id == player2.national_id
                     and match.player2.national_id == player1.national_id

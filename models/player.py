@@ -2,32 +2,32 @@ class Player:
     # __init__ permet d'initialiser l'objet a sa création et stocke les donnée dans l'objet concerné avec précision
     # self sert a cibler l'objet à l'intérieur de la classe sinon tout les objets player partageraient les meme valeurs
     def __init__(self, first_name, last_name, birth_date, national_id):
-        self.first_name = first_name 
+        self.first_name = first_name
         self.last_name = last_name
         self.birth_date = birth_date
-        self.national_id = national_id 
+        self.national_id = national_id
 
-    #__str__ permet d'afficher les données de l'objet en format string
+    # __str__ permet d'afficher les données de l'objet en format string
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.national_id})"
-    
-    #to_dict() sert a transformer un objet en dictionnaire JSON
+
+    # to_dict() sert a transformer un objet en dictionnaire JSON
     def to_dict(self):
-        return{
+        return {
             "first_name": self.first_name,
             "last_name": self.last_name,
             "birth_date": self.birth_date,
-            "national_id": self.national_id
+            "national_id": self.national_id,
         }
-    
-    #from_dict() recrée un objet à partir des données JSON
-    #@classmethod précise que la méthode appartient à la classe
+
+    # from_dict() recrée un objet à partir des données JSON
+    # @classmethod précise que la méthode appartient à la classe
     # -- cela nous permet de réutiliser la même methode sur une autre classe
     @classmethod
-    def from_dict(cls,player_data):
+    def from_dict(cls, player_data):
         return cls(
             player_data["first_name"],
             player_data["last_name"],
             player_data["birth_date"],
-            player_data["national_id"]
+            player_data["national_id"],
         )

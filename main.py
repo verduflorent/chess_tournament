@@ -6,7 +6,6 @@ from controllers.tournament_controller import TournamentController
 from views.player_view import PlayerView
 from views.tournament_view import TournamentView
 
-
 # =========================
 # INITIALISATION MVC
 # =========================
@@ -18,15 +17,13 @@ tournament_controller = TournamentController(db_manager)
 
 player_view = PlayerView(player_controller)
 
-tournament_view = TournamentView(
-    tournament_controller,
-    player_controller
-)
+tournament_view = TournamentView(tournament_controller, player_controller)
 
 
 # =========================
 # MENUS
 # =========================
+
 
 def player_menu():
 
@@ -127,7 +124,7 @@ def reports_menu():
 
             case "3":
                 tournament_view.display_tournament_rounds_view()
-            
+
             case "4":
                 tournament_view.display_tournament_ranking_view()
 
