@@ -4,9 +4,11 @@ from models.round import Round
 
 class TournamentController:
 
+    # Initialisation DB
     def __init__(self, db_manager):
         self.db_manager = db_manager
 
+    # Création d'un tournoi
     def create_tournament(
             self,
             name,
@@ -30,10 +32,12 @@ class TournamentController:
 
         return tournament
 
+    # Récuperation des tournois
     def get_tournaments(self):
 
         return self.db_manager.get_tournaments()
     
+    # Ajout des joueurs à un tournoi
     def add_player_to_tournament(self, tournament_index, player_index):
         # On récuperes les données des tournois et des joueurs
         tournaments = self.db_manager.get_tournaments()
@@ -52,24 +56,41 @@ class TournamentController:
         #On retourne le tournoi en fonction de son index
         return tournament
     
+    # Generation des rounds
     def generate_round(self, tournament_index):
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
-
-        players = tournament.players
+        
+        # L'appel de get_tournament_ranking() retourne les joueurs triés par le classement
+        players = self.get_tournament_ranking(tournament)
 
         matches = []
+        # copy() crée une copie de la liste originale afin de retirer des joueurs sans modifier la liste originale
+        available_players = players.copy()
 
-        if len(players) % 2 != 0:
-            raise ValueError("Le nombre de joueurs doit être pair pour generer un round")
-        # On parcours l'index avec la méthode range() qui sert a définir la portée de notre recherche
-        # len(players) signifie qu'on parcours toute la liste players et le 2 signifie qu'on veut les recuperer par 2
-        for index in range(0, len(players), 2) :
+        while available_players:
+            # On prends le premier joueur (le mieux classé) et pop() le retire de la liste
+            player1 = available_players.pop(0)
+            # On prépare une variable pour stocker son futur adversaire
+            opponent = None
 
-            player1 = players[index]
-            player2 = players[index + 1]
+            # On parcours le reste de la liste pour trouver un adversaire
+            for player2 in available_players:
+                # On verifie que player 1 et 2 ne se sont pas affrontés
+                if not self.have_played_together(tournament, player1, player2):
+                    # Si les critères sont remplis alors player2 devient la variable que l'on a stocké au préalable
+                    opponent = player2
+                    break
+            
+            # Si aucun adversaire répondant a notre critère n'as été trouvé
+            if opponent is None:
+                # On prend le premier joueur de la liste pour éviter de bloquer le processus de création de round
+                opponent = available_players[0]
 
-            match = Match(player1, player2)
+            # remove() retire l'opposant de la liste copiée
+            available_players.remove(opponent)
+
+            match = Match(player1, opponent)
             matches.append(match)
 
         new_round = Round(f"Round {tournament.actual_round + 1}")
@@ -85,6 +106,7 @@ class TournamentController:
 
         return new_round
     
+    # Saisie manuelle des résultats du round
     def enter_round_results(self, tournament_index, round_index):
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
@@ -104,6 +126,7 @@ class TournamentController:
 
         return selected_round
     
+    # Récupération du classement du tournoi
     def get_tournament_ranking(self, tournament):
         scores = {}
 
@@ -125,3 +148,28 @@ class TournamentController:
         )
 
         return [item["player"] for item in ranking]
+    
+    # Gestion des rematchs
+    # La méthode vérifie si 2 joueurs se sont déja affrontés 
+    # On l'appelles dans generate_round() afin d'éviter les rematchs
+    def have_played_together(self, tournament, player1, player2):
+        for tournament_round in tournament.rounds:
+            for match in tournament_round.matches:
+                # On verifie dans l'ordre des paramètres
+                same_order = (
+                    match.player1.national_id == player1.national_id
+                    and match.player2.national_id == player2.national_id
+                )
+
+                # Puis on vérifie dans l'ordre inverse des paramètres 
+                reverse_order = (
+                    match.player1.national_id == player2.national_id
+                    and match.player2.national_id == player1.national_id
+                )
+
+                # Si une des vérification renvoie true alors la rencontre a déja eu lieu et on return True
+                if same_order or reverse_order:
+                    return True
+
+        # Si aucune vérification return True alors la rencontre n'as pas lieu et on return False
+        return False

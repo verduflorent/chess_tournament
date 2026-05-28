@@ -2,6 +2,8 @@ from models.match import Match
 from datetime import datetime
 
 class Round:
+
+    # Initialisation de Round
     def __init__(self, name):
         self.name = name
         #On ne demande pas ces attributs en paramètres car on les définis dans l'objet
@@ -12,16 +14,19 @@ class Round:
         #Pour end_time le round n'est pas terminé au moment de sa création donc la valeur finale de l'attribut n'est pas definie dans l'init
         self.end_time = None
 
+    # Ajout de match au round
     def add_match(self, match):
         self.matches.append(match)
 
+    # Automatisation de la variable de fin de round
     def end_round(self):
         self.end_time = datetime.now()
 
-
+    # Configuratin de l'affichage de Round
     def __str__(self):
         return f"Round : {self.name} / Start : {self.start_time} End : {self.end_time}"
     
+    # Serialization JSON
     def to_dict(self):
 
         end_time_value = (
@@ -38,6 +43,8 @@ class Round:
         }
     
     @classmethod
+
+    # Deserialization JSON
     def from_dict(cls, round_data, players):
         matches = [
                 Match.from_dict(match_data, players)

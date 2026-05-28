@@ -1,7 +1,10 @@
 class PlayerView:
+
+    # Initialisation de PlayerView
     def __init__(self, player_controller):
         self.player_controller = player_controller
 
+    # Creéation de la vue joueur
     def create_player_view(self):
         first_name = input("Prénom : ")
         last_name = input("Nom de famile : ")
@@ -17,6 +20,7 @@ class PlayerView:
 
         print(f"Joueur crée : {player}")
 
+    # Affichage de la vue player
     def display_players_view(self):
         players = self.player_controller.get_players()
 

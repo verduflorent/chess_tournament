@@ -1,8 +1,11 @@
 class TournamentView:
+
+    # Initialisation de TournamentView
     def __init__(self, tournament_controller, player_controller):
         self.tournament_controller = tournament_controller
         self.player_controller = player_controller
     
+    # Creation de la vue tournoi
     def create_tournament_view(self):
         name = input("Nom : ")
         place = input("Lieu : ")
@@ -22,12 +25,14 @@ class TournamentView:
 
         print(f"Tournoi crée : {tournament.name}")
     
+    # Affichage de la vue tournoi
     def display_tournaments_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
         for tournament in tournaments:
             print(tournament)
     
+    # Affichage de la vue d'ajout de joueur
     def add_player_to_tournament_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
@@ -51,6 +56,7 @@ class TournamentView:
 
         print(f"Joueur ajouté au tournoi : {tournament}")
 
+    # Affichage de la vue de generation de round
     def generate_round_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
@@ -63,6 +69,7 @@ class TournamentView:
 
         print(f"{new_round.name} génené avec succès.")
     
+    # Création et affichage de la vue de saisie de score de rounds
     def enter_round_results_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
@@ -85,6 +92,7 @@ class TournamentView:
 
         print(f"Résultats enregistrés pour {selected_round.name}")
     
+    # Affichage de la vue des détails des tournois
     def display_tournament_details_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
@@ -101,6 +109,7 @@ class TournamentView:
         print(f"Nombre de joueurs : {len(tournament.players)}")
         print(f"Nombre de rounds : {len(tournament.rounds)}")
 
+    # Affichage de la vue des joueurs des tournois
     def display_tournament_players_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
@@ -117,6 +126,7 @@ class TournamentView:
         for player in sorted(tournament.players, key=lambda player: player.last_name):
             print(player)
     
+    # Affichage de la vue des rounds des tournois
     def display_tournament_rounds_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
@@ -136,6 +146,7 @@ class TournamentView:
             for match in tournament_round.matches:
                 print(f"  - {match}")
     
+    # Affichage de la vue du classement des tournois
     def display_tournament_ranking_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 

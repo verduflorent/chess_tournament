@@ -2,9 +2,12 @@ from models.player import Player
 
 
 class PlayerController:
+
+    # Initialisation DB
     def __init__(self, db_manager):
         self.db_manager = db_manager
 
+    # Création d'un joueur
     def create_player(
             self,
             first_name,
@@ -24,6 +27,7 @@ class PlayerController:
 
         return player
 
+    # Récuperation des joueurs
     def get_players(self):
 
         return self.db_manager.get_players()

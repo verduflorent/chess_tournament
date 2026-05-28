@@ -2,6 +2,7 @@ from models.player import Player
 from models.round import Round
 
 class Tournament:
+    # Initialisation de Tournament
     def __init__(
             self,
             name, 
@@ -24,9 +25,11 @@ class Tournament:
         self.rounds = rounds or []
         self.players = players or []
     
+    # Configuration de l'affichage de Tournament
     def __str__(self):
         return f"{self.name} ({self.start_date})"
 
+    # Ajout d'un joueur au tournoi
     def add_player(self,player):
         for existing_player in self.players:
             if existing_player.national.id == player.national_id:
@@ -34,11 +37,13 @@ class Tournament:
                 
         self.players.append(player)
     
+    # Ajout d'un round au tournoi
     def add_round(self,new_round):
         if new_round not in self.rounds:
             self.rounds.append(new_round)
 
 # Cette méthode sert a transformer un objet python en dictionnaire simple et compréhensible par JSON
+    # Serialization JSON
     def to_dict(self):
         return{
             "name": self.name,
@@ -54,6 +59,8 @@ class Tournament:
         }
     
     @classmethod
+
+    # Deserialization JSON
     def from_dict(cls, tournament_data):
         players = [
             Player.from_dict(player_data)
