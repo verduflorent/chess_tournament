@@ -1,14 +1,31 @@
+from datetime import datetime
+
+
 class PlayerView:
 
     # Initialisation de PlayerView
     def __init__(self, player_controller):
         self.player_controller = player_controller
 
+    # Gestion des dates de naissances
+    def get_valid_date_input(self, message):
+        while True:
+            date_value = input(message)
+
+            try:
+                datetime.strptime(date_value, "%d/%m/%Y")
+                return date_value
+
+            except ValueError:
+                print("Erreur : date invalide. Format attendu : JJ/MM/AAAA.")
+
     # Creéation de la vue joueur
     def create_player_view(self):
         first_name = input("Prénom : ")
         last_name = input("Nom de famile : ")
-        birth_date = input("Date de naissance (JJ-MM-AAAA) : ")
+        birth_date = self.get_valid_date_input(
+            "Date de naissance (JJ/MM/AAAA) : "
+        )
         national_id = input("Identifiant National : ")
 
         player = self.player_controller.create_player(

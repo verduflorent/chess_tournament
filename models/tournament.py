@@ -33,7 +33,7 @@ class Tournament:
     # Ajout d'un joueur au tournoi
     def add_player(self, player):
         for existing_player in self.players:
-            if existing_player.national.id == player.national_id:
+            if existing_player.national_id == player.national_id:
                 return
 
         self.players.append(player)

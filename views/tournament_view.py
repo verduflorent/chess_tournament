@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class TournamentView:
 
     # Initialisation de TournamentView
@@ -14,14 +17,40 @@ class TournamentView:
             except ValueError:
                 print("Erreur : veuillez entrer un nombre valide.")
 
+    # Securisation des dates
+    def get_valid_datetime_input(self, message):
+        while True:
+            date_value = input(message)
+
+            try:
+                datetime.strptime(date_value, "%d/%m/%Y %H:%M")
+                return date_value
+
+            except ValueError:
+                print(
+                    "Erreur : format invalide. "
+                    "Format attendu : JJ/MM/AAAA HH:MM"
+                )
+
     # Creation de la vue tournoi
     def create_tournament_view(self):
         name = input("Nom : ")
         place = input("Lieu : ")
         description = input("Description : ")
-        start_date = input("Début du tournoi (JJ/MM/AAAA HH:MM) : ")
-        end_date = input("Fin du tournoi (JJ/MM/DDDD HH:MM) : ")
+        start_date = self.get_valid_datetime_input(
+            "Date de début (JJ/MM/AAAA HH:MM) : "
+        )
+        end_date = self.get_valid_datetime_input(
+            "Date de fin (JJ/MM/AAAA HH:MM) : "
+        )
         total_rounds = input("Nombre de rounds : ")
+
+        if end_date <= start_date:
+            print(
+                "Erreur : la date de fin doit être postérieure "
+                "à la date de début."
+            )
+            return
 
         tournament = self.tournament_controller.create_tournament(
             name, place, description, start_date, end_date, total_rounds
