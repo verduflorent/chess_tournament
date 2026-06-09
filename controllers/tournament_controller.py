@@ -171,6 +171,8 @@ class TournamentController:
                 scores[match.player1.national_id]["score"] += match.score1
                 scores[match.player2.national_id]["score"] += match.score2
 
+        # sorted cree une liste des valeurs a trier
+        # Lambda + item definisse l'attribut que l'on veut trier
         ranking = sorted(scores.values(), key=lambda item: item["score"], reverse=True)
 
         return [item["player"] for item in ranking]

@@ -161,6 +161,11 @@ class TournamentView:
             new_round = self.tournament_controller.generate_round(tournament_index)
             print(f"{new_round.name} généré avec succès.")
 
+            print("\nMatchs générés :")
+
+            for match in new_round.matches:
+                print(f"- {match}")
+
         except ValueError as error:
             print(f"Erreur : {error}")
 
