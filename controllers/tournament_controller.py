@@ -78,6 +78,7 @@ class TournamentController:
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
 
+        # ------ GESTION DES ERREURS -----
         if tournament.rounds and tournament.rounds[-1].end_time is None:
             raise ValueError(
                 "Le round précédent doit être terminé avant d'en générer un nouveau."
@@ -97,6 +98,7 @@ class TournamentController:
                 "Le nombre de joueurs doit être pair pour générer un round."
             )
 
+        # ------ GESTION DES ROUNDS -----
         matches = []
         # copy() crée une copie de la liste originale afin de retirer des joueurs sans modifier la liste originale
         available_players = players.copy()

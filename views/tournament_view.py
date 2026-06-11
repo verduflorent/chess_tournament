@@ -90,17 +90,17 @@ class TournamentView:
         tournaments = self.tournament_controller.get_tournaments()
 
         # Enumerate() sert à parcourir une liste en récuperant automatiquement un numéro(index)
-        for index, tournament in enumerate(tournaments):
+        for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
         players = self.player_controller.get_players()
 
-        for index, player in enumerate(players):
+        for index, player in enumerate(players, start=1):
             print(index, player)
 
         # On passe le format en int afin de garder l'index en entier exploitable
-        tournament_index = self.get_valid_integer_input("Numéro du tournoi : ")
-        player_index = self.get_valid_integer_input("Numéro du joueur : ")
+        tournament_index = self.get_valid_integer_input("Numéro du tournoi : ") - 1
+        player_index = self.get_valid_integer_input("Numéro du joueur : ") - 1
 
         try:
             tournament = self.tournament_controller.add_player_to_tournament(
@@ -152,10 +152,10 @@ class TournamentView:
     def generate_round_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
-        for index, tournament in enumerate(tournaments):
+        for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
-        tournament_index = self.get_valid_integer_input("Numéro du tournoi : ")
+        tournament_index = self.get_valid_integer_input("Numéro du tournoi : ") - 1
 
         try:
             new_round = self.tournament_controller.generate_round(tournament_index)
@@ -176,10 +176,10 @@ class TournamentView:
     def enter_round_results_view(self):
         tournaments = self.tournament_controller.get_tournaments()
 
-        for index, tournament in enumerate(tournaments):
+        for index, tournament in enumerate(tournaments, start=1):
             print(index, tournament)
 
-        tournament_index = self.get_valid_integer_input("Numéro du tournoi : ")
+        tournament_index = self.get_valid_integer_input("Numéro du tournoi : ") - 1
 
         try:
             tournament = tournaments[tournament_index]
