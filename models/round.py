@@ -7,7 +7,11 @@ class Round:
 
     # Initialisation de Round
     def __init__(self, name):
-        """Initialise un round avec son nom et son heure de debut."""
+        """Initialise un round avec son nom et son heure de debut.
+
+        Args:
+            name: Nom du round.
+        """
         self.name = name
         # On ne demande pas ces attributs en paramètres car on les définis dans l'objet
         # Pour matches on commence avec une liste vide qu'on rempliras dans le script
@@ -20,7 +24,11 @@ class Round:
 
     # Ajout de match au round
     def add_match(self, match):
-        """Ajoute un match au round."""
+        """Ajoute un match au round.
+
+        Args:
+            match: Match a ajouter au round.
+        """
         self.matches.append(match)
 
     # Automatisation de la variable de fin de round
@@ -30,12 +38,20 @@ class Round:
 
     # Configuratin de l'affichage de Round
     def __str__(self):
-        """Retourne l'affichage lisible du round."""
+        """Retourne l'affichage lisible du round.
+
+        Returns:
+            Le round sous forme de texte.
+        """
         return f"Round : {self.name} / Start : {self.start_time} End : {self.end_time}"
 
     # Serialization JSON
     def to_dict(self):
-        """Transforme le round en dictionnaire."""
+        """Transforme le round en dictionnaire.
+
+        Returns:
+            Les donnees du round sous forme de dictionnaire.
+        """
 
         end_time_value = self.end_time.isoformat() if self.end_time else None
 
@@ -49,7 +65,15 @@ class Round:
     # Deserialization JSON
     @classmethod
     def from_dict(cls, round_data, players):
-        """Cree un round depuis un dictionnaire."""
+        """Cree un round depuis un dictionnaire.
+
+        Args:
+            round_data: Donnees du round.
+            players: Liste des joueurs disponibles.
+
+        Returns:
+            Une instance de Round.
+        """
         matches = [
             Match.from_dict(match_data, players) for match_data in round_data["matches"]
         ]

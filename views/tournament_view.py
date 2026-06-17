@@ -6,13 +6,25 @@ class TournamentView:
 
     # Initialisation de TournamentView
     def __init__(self, tournament_controller, player_controller):
-        """Initialise la vue avec les controleurs necessaires."""
+        """Initialise la vue avec les controleurs necessaires.
+
+        Args:
+            tournament_controller: Controleur utilise pour gerer les tournois.
+            player_controller: Controleur utilise pour gerer les joueurs.
+        """
         self.tournament_controller = tournament_controller
         self.player_controller = player_controller
 
     # Securisation des inputs
     def get_valid_integer_input(self, message):
-        """Demande un nombre entier valide."""
+        """Demande un nombre entier valide.
+
+        Args:
+            message: Message affiche avant la saisie.
+
+        Returns:
+            Le nombre entier saisi par l'utilisateur.
+        """
         while True:
             try:
                 return int(input(message))
@@ -22,7 +34,14 @@ class TournamentView:
 
     # Securisation des dates
     def get_valid_datetime_input(self, message):
-        """Demande une date et une heure valides."""
+        """Demande une date et une heure valides.
+
+        Args:
+            message: Message affiche avant la saisie.
+
+        Returns:
+            La date et l'heure valides saisies par l'utilisateur.
+        """
         while True:
             date_value = input(message)
 

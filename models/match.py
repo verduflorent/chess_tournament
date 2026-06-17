@@ -3,7 +3,14 @@ class Match:
 
     # Initialisation de la classe Match
     def __init__(self, player1, player2, score1=0, score2=0):
-        """Initialise un match avec deux joueurs et leurs scores."""
+        """Initialise un match avec deux joueurs et leurs scores.
+
+        Args:
+            player1: Premier joueur du match.
+            player2: Deuxieme joueur du match.
+            score1: Score du premier joueur.
+            score2: Score du deuxieme joueur.
+        """
         self.player1 = player1
         self.player2 = player2
         self.score1 = score1
@@ -11,12 +18,20 @@ class Match:
 
     # Configuration de l'affichage des matchs
     def __str__(self):
-        """Retourne l'affichage lisible du match."""
+        """Retourne l'affichage lisible du match.
+
+        Returns:
+            Le match sous forme de texte.
+        """
         return f"{self.player1} : {self.score1} / {self.player2} : {self.score2}"
 
     # Serialization JSON
     def to_dict(self):
-        """Transforme le match en dictionnaire."""
+        """Transforme le match en dictionnaire.
+
+        Returns:
+            Les donnees du match sous forme de dictionnaire.
+        """
         return {
             "player1": self.player1.national_id,
             "player2": self.player2.national_id,
@@ -27,7 +42,15 @@ class Match:
     # Déserialization JSON
     @classmethod
     def from_dict(cls, match_data, players):
-        """Cree un match depuis un dictionnaire."""
+        """Cree un match depuis un dictionnaire.
+
+        Args:
+            match_data: Donnees du match.
+            players: Liste des joueurs disponibles.
+
+        Returns:
+            Une instance de Match.
+        """
 
         player1 = None
         player2 = None

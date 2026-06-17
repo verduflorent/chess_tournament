@@ -6,12 +6,23 @@ class PlayerView:
 
     # Initialisation de PlayerView
     def __init__(self, player_controller):
-        """Initialise la vue avec le controleur des joueurs."""
+        """Initialise la vue avec le controleur des joueurs.
+
+        Args:
+            player_controller: Controleur utilise pour gerer les joueurs.
+        """
         self.player_controller = player_controller
 
     # Gestion des dates de naissances
     def get_valid_date_input(self, message):
-        """Demande une date valide au format JJ/MM/AAAA."""
+        """Demande une date valide au format JJ/MM/AAAA.
+
+        Args:
+            message: Message affiche avant la saisie.
+
+        Returns:
+            La date valide saisie par l'utilisateur.
+        """
         while True:
             date_value = input(message)
 
