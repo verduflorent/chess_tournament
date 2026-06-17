@@ -6,18 +6,14 @@ from models.tournament import Tournament
 class DatabaseManager:
     """Gere les acces a la base de donnees TinyDB."""
 
-    # db_path determine le chemin de la BD
     def __init__(self, db_path="data/db.json"):
         """Initialise la base de donnees et ses tables.
 
         Args:
             db_path: Chemin du fichier de base de donnees.
         """
-        # l'attribut db est notre raccourci vers la DB
         self.db = TinyDB(db_path)
-        # definition de la table player_table
         self.players_table = self.db.table("players")
-        # definition de la table tournament_table
         self.tournaments_table = self.db.table("tournaments")
 
     def save_player(self, player):
@@ -34,11 +30,8 @@ class DatabaseManager:
         Returns:
             La liste des joueurs enregistres.
         """
-        # On indique qu'il faut recuperer tout les dictionnaires de la table players
         players_data = self.players_table.all()
-        # On crée une variables players qui vas stocker le résultat de notre boucle
         players = [
-            # Pour chaque dictionnaire de la boucle on reconstruit l'objet Player
             Player.from_dict(player_data)
             for player_data in players_data
         ]
@@ -59,9 +52,7 @@ class DatabaseManager:
         Args:
             tournaments: Liste des tournois a enregistrer.
         """
-        # La méthode trunkate vide la table tournaments
         self.tournaments_table.truncate()
-        # On réecris ensuite la table pour éviter les doublons
         for tournament in tournaments:
             self.tournaments_table.insert(tournament.to_dict())
 

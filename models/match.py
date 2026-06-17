@@ -1,7 +1,6 @@
 class Match:
     """Represente un match entre deux joueurs."""
 
-    # Initialisation de la classe Match
     def __init__(self, player1, player2, score1=0, score2=0):
         """Initialise un match avec deux joueurs et leurs scores.
 
@@ -16,7 +15,6 @@ class Match:
         self.score1 = score1
         self.score2 = score2
 
-    # Configuration de l'affichage des matchs
     def __str__(self):
         """Retourne l'affichage lisible du match.
 
@@ -25,7 +23,6 @@ class Match:
         """
         return f"{self.player1} : {self.score1} / {self.player2} : {self.score2}"
 
-    # Serialization JSON
     def to_dict(self):
         """Transforme le match en dictionnaire.
 
@@ -39,7 +36,6 @@ class Match:
             "score2": self.score2,
         }
 
-    # Déserialization JSON
     @classmethod
     def from_dict(cls, match_data, players):
         """Cree un match depuis un dictionnaire.
