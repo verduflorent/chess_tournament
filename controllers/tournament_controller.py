@@ -4,15 +4,18 @@ from models.round import Round
 
 
 class TournamentController:
+    """Controle les actions liees aux tournois."""
 
     # Initialisation DB
     def __init__(self, db_manager):
+        """Initialise le controleur avec le gestionnaire de base de donnees."""
         self.db_manager = db_manager
 
     # Création d'un tournoi
     def create_tournament(
         self, name, place, description, start_date, end_date, total_rounds
     ):
+        """Cree un tournoi et l'enregistre en base de donnees."""
 
         tournament = Tournament(
             name, place, description, start_date, end_date, total_rounds
@@ -24,11 +27,13 @@ class TournamentController:
 
     # Récuperation des tournois
     def get_tournaments(self):
+        """Recupere la liste des tournois."""
 
         return self.db_manager.get_tournaments()
 
     # Suppression d'un tournoi
     def delete_tournament(self, tournament_index):
+        """Supprime un tournoi a partir de son index."""
         tournaments = self.db_manager.get_tournaments()
 
         deleted_tournament = tournaments.pop(tournament_index)
@@ -39,6 +44,7 @@ class TournamentController:
 
     # Ajout des joueurs à un tournoi
     def add_player_to_tournament(self, tournament_index, player_index):
+        """Ajoute un joueur selectionne a un tournoi selectionne."""
         # On récuperes les données des tournois et des joueurs
         tournaments = self.db_manager.get_tournaments()
         players = self.db_manager.get_players()
@@ -63,6 +69,7 @@ class TournamentController:
 
     # Suppression d'un joueur du tournoi
     def remove_player_from_tournament(self, tournament_index, player_index):
+        """Retire un joueur d'un tournoi si aucun round n'a commence."""
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
 
@@ -80,6 +87,7 @@ class TournamentController:
 
     # Generation des rounds
     def generate_round(self, tournament_index):
+        """Genere le prochain round d'un tournoi."""
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
 
@@ -148,6 +156,7 @@ class TournamentController:
 
     # Saisie manuelle des résultats du round
     def enter_round_results(self, tournament_index, round_index):
+        """Saisit les resultats d'un round et le termine."""
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
         selected_round = tournament.rounds[round_index]
@@ -168,6 +177,7 @@ class TournamentController:
 
     # Récupération du classement du tournoi
     def get_tournament_ranking(self, tournament):
+        """Retourne les joueurs du tournoi tries par score."""
         scores = {}
 
         for player in tournament.players:
@@ -188,6 +198,7 @@ class TournamentController:
     # La méthode vérifie si 2 joueurs se sont déja affrontés
     # On l'appelles dans generate_round() afin d'éviter les rematchs
     def have_played_together(self, tournament, player1, player2):
+        """Verifie si deux joueurs se sont deja affrontes."""
         for tournament_round in tournament.rounds:
             for match in tournament_round.matches:
                 # On verifie dans l'ordre des paramètres

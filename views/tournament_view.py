@@ -2,14 +2,17 @@ from datetime import datetime
 
 
 class TournamentView:
+    """Gere les affichages et saisies lies aux tournois."""
 
     # Initialisation de TournamentView
     def __init__(self, tournament_controller, player_controller):
+        """Initialise la vue avec les controleurs necessaires."""
         self.tournament_controller = tournament_controller
         self.player_controller = player_controller
 
     # Securisation des inputs
     def get_valid_integer_input(self, message):
+        """Demande un nombre entier valide."""
         while True:
             try:
                 return int(input(message))
@@ -19,6 +22,7 @@ class TournamentView:
 
     # Securisation des dates
     def get_valid_datetime_input(self, message):
+        """Demande une date et une heure valides."""
         while True:
             date_value = input(message)
 
@@ -34,6 +38,7 @@ class TournamentView:
 
     # Creation de la vue tournoi
     def create_tournament_view(self):
+        """Affiche le formulaire de creation d'un tournoi."""
         name = input("Nom : ")
         place = input("Lieu : ")
         description = input("Description : ")
@@ -60,6 +65,7 @@ class TournamentView:
 
     # Affichage de la vue de suppression des tournois
     def delete_tournament_view(self):
+        """Affiche le formulaire de suppression d'un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -80,6 +86,7 @@ class TournamentView:
 
     # Affichage de la vue tournoi
     def display_tournaments_view(self):
+        """Affiche la liste des tournois."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for tournament in tournaments:
@@ -87,6 +94,7 @@ class TournamentView:
 
     # Affichage de la vue d'ajout de joueur
     def add_player_to_tournament_view(self):
+        """Affiche le formulaire d'ajout d'un joueur a un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         # Enumerate() sert à parcourir une liste en récuperant automatiquement un numéro(index)
@@ -116,6 +124,7 @@ class TournamentView:
 
     # Affichage la vue de suppression d'un joueur du tournoi
     def remove_player_from_tournament_view(self):
+        """Affiche le formulaire de retrait d'un joueur d'un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -153,6 +162,7 @@ class TournamentView:
 
     # Affichage de la vue de generation de round
     def generate_round_view(self):
+        """Affiche le formulaire de generation d'un round."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -177,6 +187,7 @@ class TournamentView:
 
     # Création et affichage de la vue de saisie de score de rounds
     def enter_round_results_view(self):
+        """Affiche le formulaire de saisie des resultats d'un round."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -210,6 +221,7 @@ class TournamentView:
 
     # Affichage de la vue des détails des tournois
     def display_tournament_details_view(self):
+        """Affiche les details d'un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -233,6 +245,7 @@ class TournamentView:
 
     # Affichage de la vue des joueurs des tournois
     def display_tournament_players_view(self):
+        """Affiche les joueurs d'un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -260,6 +273,7 @@ class TournamentView:
 
     # Affichage de la vue des rounds des tournois
     def display_tournament_rounds_view(self):
+        """Affiche les rounds et matchs d'un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
@@ -290,6 +304,7 @@ class TournamentView:
 
     # Affichage de la vue du classement des tournois
     def display_tournament_ranking_view(self):
+        """Affiche le classement d'un tournoi."""
         tournaments = self.tournament_controller.get_tournaments()
 
         for index, tournament in enumerate(tournaments, start=1):
