@@ -26,6 +26,7 @@ tournament_view = TournamentView(tournament_controller, player_controller)
 
 
 def player_menu():
+    """Affiche le menu de gestion des joueurs."""
 
     while True:
 
@@ -56,6 +57,7 @@ def player_menu():
 
 
 def tournament_menu():
+    """Affiche le menu de gestion des tournois."""
 
     while True:
 
@@ -102,6 +104,7 @@ def tournament_menu():
 
 
 def reports_menu():
+    """Affiche le menu des rapports."""
 
     while True:
 
