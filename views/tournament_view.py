@@ -148,6 +148,9 @@ class TournamentView:
         except IndexError:
             print("Erreur : numéro de joueur invalide.")
 
+        except ValueError as error:
+            print(f"Erreur : {error}")
+
     # Affichage de la vue de generation de round
     def generate_round_view(self):
         tournaments = self.tournament_controller.get_tournaments()

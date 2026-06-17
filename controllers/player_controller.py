@@ -24,10 +24,20 @@ class PlayerController:
     # Suppression d'un joueur
     def delete_player(self, player_index):
         players = self.db_manager.get_players()
+        player_to_delete = players[player_index]
+
+        tournaments = self.db_manager.get_tournaments()
+
+        for tournament in tournaments:
+            for tournament_player in tournament.players:
+                if tournament_player.national_id == player_to_delete.national_id:
+                    raise ValueError(
+                        "Impossible de supprimer ce joueur : "
+                        "il est inscrit dans un tournoi."
+                    )
 
         deleted_player = players.pop(player_index)
 
-        # truncate() vide totalement la table players afin de la réecrire
         self.db_manager.players_table.truncate()
 
         for player in players:

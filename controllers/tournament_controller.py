@@ -66,6 +66,11 @@ class TournamentController:
         tournaments = self.db_manager.get_tournaments()
         tournament = tournaments[tournament_index]
 
+        if tournament.rounds:
+            raise ValueError(
+                "Impossible de retirer un joueur : le tournoi a déjà commencé."
+            )
+
         player = tournament.players[player_index]
         tournament.players.remove(player)
 

@@ -56,3 +56,6 @@ class PlayerView:
 
         except IndexError:
             print("Erreur : numéro de joueur invalide.")
+
+        except ValueError as error:
+            print(f"Erreur : {error}")
